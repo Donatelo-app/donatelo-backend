@@ -21,11 +21,11 @@ def update_enviroment():
 	return "ok", 200
 
 
-@app.route("/get_value")
-def get_value():
+@app.route("/get_varible")
+def get_varible():
 	return "ok", 200
 
 
-@app.route("/set_value")
-def set_value():
+@app.route("/set_varible")
+def set_varible():
 	return "ok", 200
