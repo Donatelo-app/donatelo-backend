@@ -1,2 +1,1 @@
-def render_cover(cover, enviroment):
-	pass
+from draw import *
