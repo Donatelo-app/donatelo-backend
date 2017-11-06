@@ -27,7 +27,8 @@ VIEWS = {
 	      "y": int,
 	      "w": int,
 	      "h": int,
-	      "angel": float
+	      "angel": float,
+	      "border": int,
 	      },
 
 	"radial": {"id": str,
@@ -39,6 +40,14 @@ VIEWS = {
 	      "h": int,
 	      "angel": float,
 	      "start_angel": float,
-	      "direction": int
+	      "direction": int,
+	      "border": int
 	      }
+}
+
+RESOURCES = {
+	"text": [],
+	"image": ["image"],
+	"linear": ["bar", "stand"],
+	"radial": ["bar", "stand"]
 }
