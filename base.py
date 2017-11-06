@@ -36,12 +36,12 @@ def set_cover(group_id, cover, resources):
 		resources[key] = encodebytes(image)
 
 
-
-
 def set_varible(group_id, varible_name, value):
 	enviroment = mongo.enviroment.find_one({"group_id":group_id})
 	if not enviroment.get(varible_name): reutrn False
 	if not type(enviroment.get(varible_name)) is type(value): reutrn False
 
 	enviroment[varible_name] = value
-	mongo.enviroment.update({"group_id":group_id}, enviroment)
+	mongo.enviroment.update_one({"group_id":group_id}, {"$set":enviroment})
+
+	return True
