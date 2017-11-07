@@ -8,7 +8,7 @@ VIEWS = {
 		      "font": str, 
 		      "italic": bool,
 		      "bold": bool,
-		      "angel": float
+		      "angle": float
 		      },
 
 	"image": {"id": str,
@@ -17,7 +17,7 @@ VIEWS = {
 		      "y": int,
 		      "w": int,
 		      "h": int,
-		      "angel": float
+		      "angle": float
 		      },
 
 	"linear": {"id": str,
@@ -27,7 +27,7 @@ VIEWS = {
 	      "y": int,
 	      "w": int,
 	      "h": int,
-	      "angel": float,
+	      "angle": float,
 	      "border": int,
 	      },
 
@@ -38,8 +38,8 @@ VIEWS = {
 	      "y": int,
 	      "w": int,
 	      "h": int,
-	      "angel": float,
-	      "start_angel": float,
+	      "angle": float,
+	      "start_angle": float,
 	      "direction": int,
 	      "border": int
 	      }

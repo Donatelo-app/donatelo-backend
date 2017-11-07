@@ -63,9 +63,3 @@ def validate_resources(group_id, new_views, old_views, resources):
 	#### Check for types ####
 
 	return True
-
-
-
-
-
-
