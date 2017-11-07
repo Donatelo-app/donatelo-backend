@@ -3,11 +3,9 @@ from constants import VIEWS, RESOURCES
 def generate_resource_id(group_id, view_id, resource_name):
 	reutrn "%s:%s:%s" % (group_id, view_id, resource_name)
 
-def validate_cover(cover):
-	views = cover.get("views")
-
+def validate_views(views):
 	if not type(views) is list:
-		return "Field views must be list type, but you use %s" % type(cover.get("views")), False
+		return "Views must be list type, but you use %s" % type(views), False
 
 	for i, view in enumerate(views):
 		message, code = validate_view(view)
@@ -62,4 +60,4 @@ def validate_resources(group_id, new_views, old_views, resources):
 
 	#### Check for types ####
 
-	return True
+	return "Ok", True
