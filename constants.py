@@ -52,3 +52,9 @@ RESOURCES = {
 	"linear": ["bar", "stand"],
 	"radial": ["bar", "stand"]
 }
+
+VARIBLES_TYPES = {
+	"int": 0,
+	"str": "",
+	"float": 0.0
+}
