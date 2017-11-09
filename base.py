@@ -32,6 +32,7 @@ def get_enviroment(group_id):
 	if enviroment is None:
 		return "Unknown group id", False
 
+	enviroment = enviroment["enviroment"]
 	return enviroment, True
 
 
@@ -61,7 +62,7 @@ def create_group(group_id, access_token):
 		return "Group already exist", False
 
 	mongo.group.insert({"group_id":group_id, "access_token": access_token})
-	mongo.enviroment.insert({"group_id":group_id})
+	mongo.enviroment.insert({"group_id":group_id, "enviroment":{}})
 	return "ok", True
 
 
@@ -98,6 +99,13 @@ def set_cover(group_id, views, resources):
 	return "ok", True
 
 
+def set_enviroment(group_id, enviroment):
+	result, code = get_enviroment(group_id)
+	if not code:
+		return result, code
+
+	mongo.enviroment.update_one({"group_id":group_id}, {"$set":{"group_id":group_id, "enviroment":enviroment}})
+	return "ok", True
 
 def set_varible(group_id, varible_name, value):
 	result, code = get_varible(group_id, varible_name)
@@ -105,13 +113,15 @@ def set_varible(group_id, varible_name, value):
 		return result, code
 
 	cur_value = result
-	enviroment = get_enviroment(group_id)
+	enviroment = get_enviroment(group_id)[0]
 
 	if not type(cur_value) is type(value): 
 		return "Varible type must be %s but you use %s" % (type(cur_value), type(value)), False
 
 	enviroment[varible_name] = value
-	mongo.enviroment.update_one({"group_id":group_id}, {"$set":enviroment})
+	result, code = set_enviroment(group_id, enviroment)
+	if not code:
+		return result, code
 
 	return "ok", True
 
@@ -130,7 +140,10 @@ def create_varible(group_id, varible_name, varible_type):
 		return "Varible already exist", False
 
 	enviroment[varible_name] = VARIBLES_TYPES[varible_type]
-	mongo.enviroment.update_one({"group_id":group_id}, {"$set":enviroment})
+	
+	result, code = set_enviroment(group_id, enviroment)
+	if not code:
+		return result, code
 
 	return "ok", True
 
