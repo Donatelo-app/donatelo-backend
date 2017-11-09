@@ -1,17 +1,16 @@
 VIEWS = {
 	"text": {"id": str,
+			  "type": str,
 		      "value": str,
 		      "x": int,
 		      "y": int,
-		      "w": int,
-		      "h": int,,
+		      "size":int,
 		      "font": str, 
-		      "italic": bool,
-		      "bold": bool,
 		      "angle": float
 		      },
 
 	"image": {"id": str,
+			  "type": str,
 		      "value": str,
 		      "x": int,
 		      "y": int,
@@ -21,6 +20,7 @@ VIEWS = {
 		      },
 
 	"linear": {"id": str,
+		  "type": str,	
 	      "value": str,
 	      "max_value": float,
 	      "x": int,
@@ -32,6 +32,7 @@ VIEWS = {
 	      },
 
 	"radial": {"id": str,
+		  "type": str,
 	      "value": str,
 	      "max_value": float,
 	      "x": int,
@@ -47,7 +48,7 @@ VIEWS = {
 
 RESOURCES = {
 	"text": [],
-	"image": ["image"],
+	"image": [],
 	"linear": ["bar", "stand"],
 	"radial": ["bar", "stand"]
 }

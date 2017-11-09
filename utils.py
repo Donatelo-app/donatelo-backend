@@ -1,7 +1,15 @@
 from constants import VIEWS, RESOURCES
 
-def generate_resource_id(group_id, view_id, resource_name):
-	reutrn "%s:%s:%s" % (group_id, view_id, resource_name)
+def generate_resource_id(view_id, resource_name):
+	return "%s:%s" % (view_id, resource_name)
+
+def get_resources_names_from_view(views):
+	resources = []
+	for view in views:
+		for resource_name in RESOURCES[view["type"]]:
+			res_id = generate_resource_id(view["id"], resource_name)
+			resources.append(res_id)
+	return resources
 
 def validate_views(views):
 	if not type(views) is list:
@@ -12,11 +20,13 @@ def validate_views(views):
 		if not code:
 			return "view[%s]: %s" % (i, message), False
 
+	return "ok", True
+
 def validate_view(view):
 	if not view.get("type") in VIEWS:
 		return "Unknown view type", False
 
-	view_format = VIEWS[cover["type"]]
+	view_format = VIEWS[view["type"]]
 
 
 	extra_fields = set(view.keys()) - set(view_format.keys())
@@ -27,7 +37,7 @@ def validate_view(view):
 	if missing_fields:
 		return "Missing fields :%s" % (str(missing_fields)), False
 
-	for field_type, field_name in view_format.items():
+	for field_name, field_type in view_format.items():
 		this_type = type(view[field_name])
 		if not field_type is this_type:
 			return "Field '%s' must be %s type, but you use %s" % (field_name, field_type, this_type), False
@@ -38,21 +48,12 @@ def validate_view(view):
 def validate_resources(group_id, new_views, old_views, resources):
 	this_resources = set(resources.keys())
 
-	old_resources = set()
-	for view in old_views:
-		for resource_name in RESOURCES[view["type"]]:
-			res_id = generate_resource_id(group_id, view["id"], resource_name)
-			old_resources.add(res_id)
-
-	new_resources = set()
-	for view in new_views:
-		for resource_name in RESOURCES[view["type"]]:
-			res_id = generate_resource_id(group_id, view["id"], resource_name)
-			new_resources.add(res_id)
+	old_resources = set(get_resources_names_from_view(old_views))
+	new_resources = set(get_resources_names_from_view(new_views))
 
 	extra_resources = this_resources-new_resources
 	if extra_resources:
-		return "Unknown resources: %s" %s (str(extra_resources)), False
+		return "Unknown resources: %s" % (str(extra_resources)), False
 
 	missing_resources = (new_resources - old_resources) - this_resources
 	if missing_resources:
