@@ -4,7 +4,7 @@ def generate_resource_id(view_id, resource_name):
 	return "%s:%s" % (view_id, resource_name)
 
 def get_resources_names_from_view(views):
-	resources = []
+	resources = ["background"]
 	for view in views:
 		for resource_name in RESOURCES[view["type"]]:
 			res_id = generate_resource_id(view["id"], resource_name)
@@ -48,8 +48,15 @@ def validate_view(view):
 def validate_resources(group_id, new_views, old_views, resources):
 	this_resources = set(resources.keys())
 
+	is_background_exist = not old_views is None
+	if old_views is None:
+		old_views = []
+
 	old_resources = set(get_resources_names_from_view(old_views))
 	new_resources = set(get_resources_names_from_view(new_views))
+
+	if not is_background_exist:
+		old_resources.remove("background")
 
 	extra_resources = this_resources-new_resources
 	if extra_resources:

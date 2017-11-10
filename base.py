@@ -17,7 +17,6 @@ S3_BUCKET = os.environ["S3_BUCKET"]
 S3_URL = os.environ["S3_URL"]
 
 
-
 def get_cover(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
 	if cover is None:
@@ -26,15 +25,13 @@ def get_cover(group_id):
 	
 	return {"views": cover["views"], "resources": resources}, True
 
-
 def get_enviroment(group_id):
-	enviroment = mongo.enviroment.find_one({"group_id":group_id})
+	enviroment = mongo.env.find_one({"group_id":group_id})
 	if enviroment is None:
 		return "Unknown group id", False
 
 	enviroment = enviroment["enviroment"]
 	return enviroment, True
-
 
 def get_varible(group_id, varible_name):
 	result, code = get_enviroment(group_id)
@@ -46,7 +43,6 @@ def get_varible(group_id, varible_name):
 		return "Unknown varible name", False
 
 	return varible, True
-
 
 def get_access_token(group_id):
 	group = mongo.groups.find_one({"group_id":group_id})	
@@ -62,7 +58,27 @@ def create_group(group_id, access_token):
 		return "Group already exist", False
 
 	mongo.group.insert({"group_id":group_id, "access_token": access_token})
-	mongo.enviroment.insert({"group_id":group_id, "enviroment":{}})
+	mongo.env.insert({"group_id":group_id, "enviroment":{}})
+	return "ok", True
+
+def create_varible(group_id, varible_name, varible_type):
+	if not varible_type in VARIBLES_TYPES:
+		return "Unknown varible type", False
+
+	result, code = get_enviroment(group_id)
+	if not code:
+		return result, code
+	enviroment = result
+
+	if not enviroment.get(varible_name) is None:
+		return "Varible already exist", False
+
+	enviroment[varible_name] = VARIBLES_TYPES[varible_type]
+	
+	result, code = set_enviroment(group_id, enviroment)
+	if not code:
+		return result, code
+
 	return "ok", True
 
 
@@ -73,7 +89,7 @@ def set_cover(group_id, views, resources):
 
 	old_cover = mongo.covers.find_one({"group_id":group_id})
 	if not old_cover: 
-		old_views = []
+		old_views = None
 	else:
 		old_views = old_cover["views"]
 
@@ -97,7 +113,6 @@ def set_cover(group_id, views, resources):
 		mongo.covers.update_one({"group_id":group_id}, {"$set":cover})
 
 	return "ok", True
-
 
 def set_enviroment(group_id, enviroment):
 	result, code = get_enviroment(group_id)
@@ -125,25 +140,4 @@ def set_varible(group_id, varible_name, value):
 
 	return "ok", True
 
-
-
-def create_varible(group_id, varible_name, varible_type):
-	if not varible_type in VARIBLES_TYPES:
-		return "Unknown varible type", False
-
-	result, code = get_enviroment(group_id)
-	if not code:
-		return result, code
-	enviroment = result
-
-	if not enviroment.get(varible_name) is None:
-		return "Varible already exist", False
-
-	enviroment[varible_name] = VARIBLES_TYPES[varible_type]
-	
-	result, code = set_enviroment(group_id, enviroment)
-	if not code:
-		return result, code
-
-	return "ok", True
 
