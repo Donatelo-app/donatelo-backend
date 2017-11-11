@@ -57,7 +57,7 @@ def create_group(group_id, access_token):
 	if group: 
 		return "Group already exist", False
 
-	mongo.group.insert({"group_id":group_id, "access_token": access_token})
+	mongo.groups.insert({"group_id":group_id, "access_token": access_token})
 	mongo.env.insert({"group_id":group_id, "enviroment":{}})
 	return "ok", True
 
@@ -98,7 +98,7 @@ def set_cover(group_id, views, resources):
 		return message, code
 
 	for key, image in resources.items():
-		image = BytesIO(decodebytes(image))
+		image = BytesIO(decodebytes(image.encode()))
 		key = "%s:%s.png" % (group_id, key)
 
 		s3.upload_fileobj(image, S3_BUCKET, key)

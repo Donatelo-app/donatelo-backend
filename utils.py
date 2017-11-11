@@ -69,3 +69,12 @@ def validate_resources(group_id, new_views, old_views, resources):
 	#### Check for types ####
 
 	return "Ok", True
+
+def get_missing_fields(required_fields, data):
+	missing_fields = []
+	for field in required_fields:
+		if field not in data:
+			missing_fields.append(field)
+
+
+	return missing_fields

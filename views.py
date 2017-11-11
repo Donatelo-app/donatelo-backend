@@ -1,19 +1,70 @@
-from app import app
+import json
 
+from app import app
+import base
+from utils import get_missing_fields
+
+from flask import request
+
+def api_result(result, is_error):
+	if is_error:
+		result = {"code":"error", "message":result, "result":{}}
+		result = json.dumps(result)
+
+		return result, 500
+	else:
+		result = {"code":"ok", "message":"ok", "result":result}
+		result = json.dumps(result)
+
+		return result, 200
 
 @app.route("/")
 def index():
 	return "hello world"
 
 
-@app.route("/create_group")
+@app.route("/create_group", methods=["POST"])
 def create_group():
-	return "ok", 200
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id", "access_token", "resources", "views"]
+	
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
+	if not code: return api_result(result, True)	
+
+	result, code = base.create_group(data["group_id"], data["access_token"])
+	if not code: return api_result(result, True)
+
+	return api_result("", False)
 
 
-@app.route("/update_cover")
+@app.route("/update_cover", methods=["POST"])
 def update_cover():
-	return "ok", 200
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id", "resources", "views"]
+	
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
+	if not code: return api_result(result, True)	
+
+	return api_result("", False)
+
+
+@app.route("/get_cover", methods=["POST"])
+def get_cover():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id"]
+
+	result, code = base.get_cover(data["group_id"])
+	if not code: return api_result(result, True)	
+
+	return api_result(result, False)
 
 
 @app.route("/update_enviroment")
