@@ -100,10 +100,10 @@ def set_cover(group_id, views, resources):
 		return message, code
 
 	for key, image in resources.items():
-		image = image.encode()
 		if ";base64," in image:
 			image = image.split(";base64,")[1]
 
+		image = image.encode()
 		image_obj = BytesIO(decodebytes(image))
 		image = Image.open(BytesIO(base64.b64decode(data)))
 		image.save(image_obj, 'png')
