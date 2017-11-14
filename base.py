@@ -105,7 +105,7 @@ def set_cover(group_id, views, resources):
 
 		image = image.encode()
 		image_obj = BytesIO(decodebytes(image))
-		image = Image.open(BytesIO(b64decode(data)))
+		image = Image.open(image_obj)
 		image.save(image_obj, 'png')
 		image_obj.seek(0)
 
