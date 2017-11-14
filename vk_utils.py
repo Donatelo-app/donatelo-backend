@@ -8,14 +8,14 @@ def update_cover(group_id, access_token, cover):
 	img = BytesIO()
 	cover.save(img, format="png")
 	img.seek(0)
-	
-    upload_url = requests.get(get_upload_url.render(group_id=group_id, access_token=access_token)).json()["response"]["upload_url"].replace("\\", "")
-    response = requests.post(upload_url, files=dict(photo=img)).json()
-    
-    accept_hash = response["hash"]
-    accept_photo = response["photo"]
-    
-    requests.get(accept_url.render(phash=accept_hash, photo=accept_photo, access_token=access_token))
+
+	upload_url = requests.get(get_upload_url.render(group_id=group_id, access_token=access_token)).json()["response"]["upload_url"].replace("\\", "")
+	response = requests.post(upload_url, files=dict(photo=img)).json()
+
+	accept_hash = response["hash"]
+	accept_photo = response["photo"]
+
+	requests.get(accept_url.render(phash=accept_hash, photo=accept_photo, access_token=access_token))
 
 def get_viewer_mode(viewer_id):
 	pass
