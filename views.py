@@ -13,7 +13,7 @@ def api_result(result, is_error):
 		result = {"code":"error", "message":result, "result":{}}
 		result = json.dumps(result)
 
-		return result, 500
+		return result, 200
 	else:
 		result = {"code":"ok", "message":"ok", "result":result}
 		result = json.dumps(result)
