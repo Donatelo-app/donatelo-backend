@@ -22,7 +22,7 @@ def api_result(result, is_error):
 
 @app.route("/")
 def index():
-	return "hello world"
+	return "hello world", 200
 
 
 @app.route("/create_group", methods=["POST"])
