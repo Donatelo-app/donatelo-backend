@@ -4,7 +4,7 @@ from render.draw import *
 BACKGROUND_SIZE = (1280, 364)
 
 def render_cover(views, resources, enviroment):
-	background = resources["background"].resize(BACKGROUND_SIZE)
+	background = resources["background"]
 
 	for view in views:
 		if view["type"] == "text":

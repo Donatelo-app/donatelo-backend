@@ -1,4 +1,9 @@
+gunicorn
 flask
 pymongo
-redis
+flask_cors
+Pillow
+jinja2
+pymongo
 boto3
+requests
