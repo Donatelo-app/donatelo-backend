@@ -112,7 +112,7 @@ def set_cover(group_id, views, resources):
 
 		key = "%s:%s.png" % (group_id, key)
 
-		s3.upload_fileobj(image, S3_BUCKET, key)
+		s3.upload_fileobj(image_obj, S3_BUCKET, key)
 		s3.put_object_acl(ACL='public-read', Bucket=S3_BUCKET, Key=key)
 
 	old_cover = mongo.covers.find_one({"group_id":group_id})
