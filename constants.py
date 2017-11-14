@@ -6,7 +6,8 @@ VIEWS = {
 		      "y": int,
 		      "size":int,
 		      "font": str, 
-		      "angle": float
+		      "angle": float,
+		      "color": str,
 		      },
 
 	"image": {"id": str,

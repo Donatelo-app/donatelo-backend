@@ -3,6 +3,8 @@ import json
 from app import app
 import base
 from utils import get_missing_fields
+import vk_utils
+import render
 
 from flask import request
 
@@ -30,7 +32,7 @@ def create_group():
 	
 	missing_fields = get_missing_fields(required_fields, data)
 	if missing_fields:
-		return api_result("Fields %s are missing" % missing_fields, True)
+		return api_resvult("Fields %s are missing" % missing_fields, True)
 
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
@@ -53,6 +55,8 @@ def update_cover():
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
 
+	update_cover(data["group_id"])
+
 	return api_result("", False)
 
 
@@ -66,12 +70,6 @@ def get_cover():
 
 	return api_result(result, False)
 
-
-@app.route("/update_enviroment")
-def update_enviroment():
-	return "ok", 200
-
-
 @app.route("/get_varible")
 def get_varible():
 	return "ok", 200
@@ -80,3 +78,9 @@ def get_varible():
 @app.route("/set_varible")
 def set_varible():
 	return "ok", 200
+
+
+def update_cover(group_id):
+	access_token = base.get_access_token(group_id)
+	cover = base.get_cover_image(group_id)
+	vk_utils.update_cover(group_id, access_token, cover)

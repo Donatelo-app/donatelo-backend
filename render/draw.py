@@ -8,7 +8,7 @@ FONTS = {
     "ROBOTO": "Roboto-Regular.ttf"
 }
 
-RADIAL_MASK = Image.open("radial-mask.png")
+RADIAL_MASK = Image.open("render/radial-mask.png")
 
 
 
@@ -20,24 +20,27 @@ def rotate_image(image, angel):
     return canvas.rotate(angel)
 
 
-def paste_image(image, background, point):
-    point = point[0]- image.size[0]//2, point[1]- image.size[1]//2
-    
+def paste_image(image, background, point, align="center"):
+    if align == "center":
+        point = point[0]-image.size[0]//2, point[1]-image.size[1]//2
+    if align == "right":
+        pass
+
     background.paste(image, point, image)
     
     return background
 
 
-def draw_progress_bar(bar, stand, precent, border):
-    if stand is None: stand = Image.new("RGBA", progress.size)
+def draw_progress_bar(bar, stand, border, precent):
+    if stand is None: stand = Image.new("RGBA", bar.size)
     
-    bar = bar.crop((0,0,progress.size[0], progress.size[1]-progress.size[1]/100*precent))
+    bar = bar.crop((0,0,bar.size[0]/100*precent, bar.size[1]))
 
     stand = stand.resize((stand.size[0]+border*2, stand.size[1]+border*2))
     try:
-        stand.paste(progress, (border, border), progress)
+        stand.paste(bar, (border, border), bar)
     except:
-        stand.paste(progress, (border, border))
+        stand.paste(bar, (border, border))
     return stand
 
 
@@ -45,16 +48,16 @@ def draw_text(text, font_name, size, color_code="#FFFFFFFF"):
     color = ImageColor.getrgb(color_code)
     if len(color)==3: color = tuple(list(color) + [255])
     
-    font = ImageFont.truetype('./fonts/%s' % FONTS[font_name], size)
+    font = ImageFont.truetype('./render/fonts/%s' % FONTS[font_name], size)
     
-    image = Image.new('rgba', font.getsize(text)) 
+    image = Image.new('RGBA', font.getsize(text)) 
     ImageDraw.Draw(image).text((0, 0), text, font=font, fill=color)
     
     return image
 
 
 def draw_radial(image, stand, border, start_angle, percent, direction=1):
-    if stand is None: stand = Image.new("RGBA", progress.size)
+    if stand is None: stand = Image.new("RGBA", image.size)
     stand = stand.resize((stand.size[0]+border*2, stand.size[1]+border*2))
     
     mask = Image.new("RGBA", RADIAL_MASK.size)

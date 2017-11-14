@@ -1,13 +1,15 @@
 import os
 from base64 import encodebytes, decodebytes
 from io import BytesIO
+import requests
 
 from utils import validate_views, validate_resources, get_resources_names_from_view
 from constants import VARIBLES_TYPES
+import render
 
 from pymongo import MongoClient
 import boto3
-
+from PIL import Image
 
 mongo_client = MongoClient(os.environ["MONGO_URL"])
 mongo = mongo_client[os.environ["MONGO_URL"].split("/")[-1]]
@@ -139,5 +141,56 @@ def set_varible(group_id, varible_name, value):
 		return result, code
 
 	return "ok", True
+
+
+def get_resources(group_id):
+	result, code = get_cover(group_id)
+	if not code:
+		return result, code
+
+	views = result["views"]
+
+	resources_names = get_resources_names_from_view(views)
+	resources = {}
+
+	for res_name in resources_names:
+		res = BytesIO()
+		s3.download_fileobj("donatelo", "%s:%s.png" % (group_id, res_name), res)
+		res.seek(0)
+		res = Image.open(res)
+
+		resources[res_name] = res
+
+	for view in views:
+		if view["type"] == "image":
+			res = requests.get(view["value"]).content
+			try:
+				res = Image.open(BytesIO(res))
+			except Exception as ex:
+				return "Error to load image from %s" % view["value"], False
+				#res = Image.new("RGBA", (10, 10))
+			resources["%s:image" % view["id"]] = res
+
+	return resources, True
+
+def get_cover_image(group_id):
+	result, code = get_cover(group_id)
+	if not code:
+		return result, code
+	views = result["views"]
+
+	result, code = get_enviroment(group_id)
+	if not code:
+		return result, code
+	env = result
+
+	result, code = get_resources(group_id)
+	if not code:
+		return result, code
+
+	resources = result
+	cover = render.render_cover(views, resources, env)
+
+	return cover
 
 
