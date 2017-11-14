@@ -32,7 +32,7 @@ def create_group():
 	
 	missing_fields = get_missing_fields(required_fields, data)
 	if missing_fields:
-		return api_resvult("Fields %s are missing" % missing_fields, True)
+		return api_result("Fields %s are missing" % missing_fields, True)
 
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
