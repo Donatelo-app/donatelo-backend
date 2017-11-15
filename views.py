@@ -72,17 +72,17 @@ def get_cover():
 
 	return api_result(result, False)
 
-@app.route("/get_varible")
+@app.route("/get_varible", methods=["POST"])
 def get_varible():
 	return "ok", 200
 
 
-@app.route("/set_varible")
+@app.route("/set_varible", methods=["POST"])
 def set_varible():
 	return "ok", 200
 
 
-@app.route("/group_exist")
+@app.route("/group_exist", methods=["POST"])
 def group_exist():
 	data = json.loads(request.data.decode("utf-8"))
 	required_fields = ["group_id"]
