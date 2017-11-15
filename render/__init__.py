@@ -16,8 +16,8 @@ def render_cover(views, resources, enviroment):
 		if view["type"] == "linear":
 			value = enviroment.get(view["value"], 60)/view["max_value"]*100//1
 			
-			bar = resources["%s:bar" % view["id"]] 
-			stand = resources.get("%s:stand" % view["id"])
+			bar = resources["%s:bar" % view["id"]].resize((view["w"], view["h"]))
+			stand = resources.get("%s:stand" % view["id"]).resize((view["w"], view["h"]))
 			
 			linear = draw_progress_bar(bar, stand, view["border"], value)
 			linear = linear.resize((view["w"], view["h"]))
@@ -27,8 +27,8 @@ def render_cover(views, resources, enviroment):
 		if view["type"] == "radial":
 			value = enviroment.get(view["value"], 60)/view["max_value"]*100//1
 			
-			bar = resources["%s:bar" % view["id"]] 
-			stand = resources.get("%s:stand" % view["id"])
+			bar = resources["%s:bar" % view["id"]].resize((view["w"], view["h"]))
+			stand = resources.get("%s:stand" % view["id"]).resize((view["w"], view["h"]))
 			 
 			radial = draw_radial(bar, stand, view["border"], view["start_angle"], value)
 			radial = radial.resize((view["w"], view["h"]))

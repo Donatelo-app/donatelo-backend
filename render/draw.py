@@ -9,6 +9,7 @@ FONTS = {
 }
 
 RADIAL_MASK = Image.open("render/radial-mask.png")
+FULL_RADIAL_MASK = Image.open("render/full-radial-mask.png")
 
 
 
@@ -57,9 +58,13 @@ def draw_text(text, font_name, size, color_code="#FFFFFFFF"):
 
 
 def draw_radial(image, stand, border, start_angle, percent, direction=1):
-    if stand is None: stand = Image.new("RGBA", image.size)
+    stand_image = Image.new("RGBA", image.size)
+    stand_image.paste(stand, (0,0), FULL_RADIAL_MASK.resize(image.size))
+
+    stand = stand_image   
     stand = stand.resize((stand.size[0]+border*2, stand.size[1]+border*2))
     
+    stand = stand_image
     mask = Image.new("RGBA", RADIAL_MASK.size)
     
     angle = int(360/100*percent)
