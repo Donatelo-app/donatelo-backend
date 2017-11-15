@@ -12,6 +12,12 @@ RADIAL_MASK = Image.open("render/radial-mask.png")
 FULL_RADIAL_MASK = Image.open("render/full-radial-mask.png")
 
 
+def tint_image(image, tint_color):
+    color = ImageColor.getrgb(color_code)
+    if len(color)==3: color = tuple(list(color) + [255])
+    
+    return ImageChops.multiply(image, Image.new('RGB', image.size, tint_color))
+
 
 def rotate_image(image, angel):
     max_s = int((image.size[0]**2+image.size[1]**2)**0.5)
