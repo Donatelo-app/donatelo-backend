@@ -54,7 +54,7 @@ def update_cover():
 
 	result, code = update_cover(data["group_id"])
 	if not code:
-		return result, code
+		return api_result(result, True)
 
 	return api_result("", False)
 
