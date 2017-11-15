@@ -55,7 +55,9 @@ def update_cover():
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
 
-	update_cover(data["group_id"])
+	result, code = update_cover(data["group_id"])
+	if not code:
+		return result, code
 
 	return api_result("", False)
 
@@ -80,7 +82,24 @@ def set_varible():
 	return "ok", 200
 
 
+@app.route("/group_exist")
+def group_exist():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id"]
+
+	group_existing = base.is_group_exist(data["group_id"])
+
+	return api_result(group_existing, False)
+
+
 def update_cover(group_id):
-	access_token = base.get_access_token(group_id)
+	result, code = base.get_access_token(group_id)
+	if not code:
+		return result, code
+
+	access_token = result
 	cover = base.get_cover_image(group_id)
+	
 	vk_utils.update_cover(group_id, access_token, cover)
+
+	return "ok", True

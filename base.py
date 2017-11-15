@@ -19,6 +19,12 @@ S3_BUCKET = os.environ["S3_BUCKET"]
 S3_URL = os.environ["S3_URL"]
 
 
+def is_group_exist(group_id):
+	group = mongo.groups.find_one({"group_id":group_id})
+	if group is None:
+		return False
+	return True
+
 def get_cover(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
 	if cover is None:

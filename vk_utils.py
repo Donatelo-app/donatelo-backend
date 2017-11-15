@@ -6,6 +6,7 @@ get_upload_url = jinja2.Template("https://api.vk.com/method/photos.getOwnerCover
 accept_url = jinja2.Template("https://api.vk.com/method/photos.saveOwnerCoverPhoto?hash={{phash}}&photo={{photo}}&access_token={{access_token}}&v=5.65")
 
 def update_cover(group_id, access_token, cover):
+	import pdb;pdb.set_trace()
 	img = BytesIO()
 	cover.save(img, format="png")
 	img.seek(0)
