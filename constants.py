@@ -30,7 +30,8 @@ VIEWS = {
 	      "h": int,
 	      "angle": float,
 	      "border": int,
-	      "color": str
+	      "stand_color": str,
+	      "bar_color": str
 	      },
 
 	"radial": {"id": str,
@@ -45,7 +46,8 @@ VIEWS = {
 	      "start_angle": float,
 	      "direction": int,
 	      "border": int,
-	      "color": str
+	      "stand_color": str,
+	      "bar_color": str
 	      }
 }
 
