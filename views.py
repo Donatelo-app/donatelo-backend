@@ -28,14 +28,11 @@ def index():
 @app.route("/create_group", methods=["POST"])
 def create_group():
 	data = json.loads(request.data.decode("utf-8"))
-	required_fields = ["group_id", "access_token", "resources", "views"]
+	required_fields = ["group_id", "access_token"]
 	
 	missing_fields = get_missing_fields(required_fields, data)
 	if missing_fields:
 		return api_result("Fields %s are missing" % missing_fields, True)
-
-	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
-	if not code: return api_result(result, True)	
 
 	result, code = base.create_group(data["group_id"], data["access_token"])
 	if not code: return api_result(result, True)
