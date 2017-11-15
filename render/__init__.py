@@ -14,7 +14,7 @@ def render_cover(views, resources, enviroment):
 			background = paste_image(text, background, (view["x"], view["y"]))
 
 		if view["type"] == "linear":
-			value = enviroment.get(view["value"], 0)/view["max_value"]*100//1
+			value = enviroment.get(view["value"], 60)/view["max_value"]*100//1
 			
 			bar = resources["%s:bar" % view["id"]] 
 			stand = resources.get("%s:stand" % view["id"])
@@ -25,7 +25,7 @@ def render_cover(views, resources, enviroment):
 			background = paste_image(linear, background, (view["x"], view["y"]))
 		
 		if view["type"] == "radial":
-			value = enviroment.get(view["value"], 0)/view["max_value"]*100//1
+			value = enviroment.get(view["value"], 60)/view["max_value"]*100//1
 			
 			bar = resources["%s:bar" % view["id"]] 
 			stand = resources.get("%s:stand" % view["id"])
