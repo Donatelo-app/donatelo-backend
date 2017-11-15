@@ -18,6 +18,9 @@ def render_cover(views, resources, enviroment):
 			
 			bar = resources["%s:bar" % view["id"]].resize((view["w"], view["h"]))
 			stand = resources.get("%s:stand" % view["id"]).resize((view["w"], view["h"]))
+
+			bar = tint_image(bar, view["bar_color"])
+			stand = tint_image(stand, view["stand_color"])
 			
 			linear = draw_progress_bar(bar, stand, view["border"], value)
 			linear = linear.resize((view["w"], view["h"]))
@@ -29,7 +32,11 @@ def render_cover(views, resources, enviroment):
 			
 			bar = resources["%s:bar" % view["id"]].resize((view["w"], view["h"]))
 			stand = resources.get("%s:stand" % view["id"]).resize((view["w"], view["h"]))
-			 
+			
+			bar = tint_image(bar, view["bar_color"])
+			stand = tint_image(stand, view["stand_color"])
+
+
 			radial = draw_radial(bar, stand, view["border"], view["start_angle"], value)
 			radial = radial.resize((view["w"], view["h"]))
 			radial = rotate_image(radial, view["angle"])

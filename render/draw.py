@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont, ImageColor
+from PIL import Image, ImageDraw, ImageFont, ImageColor, ImageChops
 from base64 import encodebytes, decodebytes
 from io import BytesIO
 
@@ -13,10 +13,10 @@ FULL_RADIAL_MASK = Image.open("render/full-radial-mask.png")
 
 
 def tint_image(image, tint_color):
-    color = ImageColor.getrgb(color_code)
+    color = ImageColor.getrgb(tint_color)
     if len(color)==3: color = tuple(list(color) + [255])
-    
-    return ImageChops.multiply(image, Image.new('RGB', image.size, tint_color))
+
+    return ImageChops.multiply(image, Image.new('RGBA', image.size, color))
 
 
 def rotate_image(image, angel):
@@ -89,6 +89,6 @@ def draw_radial(image, stand, border, start_angle, percent, direction=1):
     if direction<0:
         mask = mask.transpose(Image.FLIP_TOP_BOTTOM)
         
-    stand.paste(image, (border,border), mask)
+    stand.paste(image, (stand.size[0]//2-image.size[0]//2,stand.size[1]//2-image.size[1]//2), mask)
     
     return stand
