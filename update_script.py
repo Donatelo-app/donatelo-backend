@@ -12,7 +12,6 @@ def update_cover(group_id):
 	access_token = result
 	cover = base.get_cover_image(group_id)
 	
-	cover.save("lol%s.png" % randint(1,100))
 	vk_utils.update_cover(group_id, access_token, cover)
 
 
