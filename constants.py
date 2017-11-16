@@ -6,7 +6,7 @@ VIEWS = {
 		      "y": int,
 		      "size":int,
 		      "font": str, 
-		      "angle": float,
+		      "angle": int,
 		      "color": str,
 		      },
 
@@ -17,7 +17,7 @@ VIEWS = {
 		      "y": int,
 		      "w": int,
 		      "h": int,
-		      "angle": float
+		      "angle": int
 		      },
 
 	"linear": {"id": str,
@@ -28,7 +28,7 @@ VIEWS = {
 	      "y": int,
 	      "w": int,
 	      "h": int,
-	      "angle": float,
+	      "angle": int,
 	      "border": int,
 	      "stand_color": str,
 	      "bar_color": str
@@ -42,8 +42,8 @@ VIEWS = {
 	      "y": int,
 	      "w": int,
 	      "h": int,
-	      "angle": float,
-	      "start_angle": float,
+	      "angle": int,
+	      "start_angle": int,
 	      "direction": int,
 	      "border": int,
 	      "stand_color": str,

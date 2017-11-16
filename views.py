@@ -112,7 +112,5 @@ def update_cover(group_id):
 	
 	vk_utils.update_cover(group_id, access_token, cover)
 	from random import randint
-	cover.save("lol%s.png" % randint(1,100))
-
 
 	return "ok", True
