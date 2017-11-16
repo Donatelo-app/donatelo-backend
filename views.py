@@ -53,7 +53,7 @@ def update_cover():
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
 
-	process = subprocess.Popen("python update_script.py %s" data["group_id"])
+	process = subprocess.Popen("python update_script.py %s" % data["group_id"])
 
 	return api_result("", False)
 
