@@ -1,3 +1,4 @@
+from multiprocessing import Process
 import json
 
 from app import app
@@ -52,12 +53,9 @@ def update_cover():
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
 
-	result, code = update_cover(data["group_id"])
-	if not code:
-		return api_result(result, True)
+	process = subprocess.Popen("python update_script.py %s" data["group_id"])
 
 	return api_result("", False)
-
 
 @app.route("/get_cover", methods=["POST"])
 def get_cover():
@@ -68,6 +66,19 @@ def get_cover():
 	if not code: return api_result(result, True)	
 
 	return api_result(result, False)
+
+
+
+@app.route("/get_varible", methods=["POST"])
+def create_varible():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id", "access_token"]
+	
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+
 
 @app.route("/get_varible", methods=["POST"])
 def get_varible():
