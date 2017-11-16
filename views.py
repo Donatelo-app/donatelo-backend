@@ -1,6 +1,5 @@
-import subprocess
+import threading
 import json
-import os
 
 from app import app
 import base
@@ -54,7 +53,9 @@ def update_cover():
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
 
-	process = subprocess.Popen("python %s%supdate_script.py %s" % (os.getcwd(), os.sep, data["group_id"]))
+	thread = threading.Thread(target=update_cover, args=(data["group_id"],))
+	thread.daemon = True
+	thread.start()
 
 	return api_result("", False)
 
@@ -110,5 +111,8 @@ def update_cover(group_id):
 	cover = base.get_cover_image(group_id)
 	
 	vk_utils.update_cover(group_id, access_token, cover)
+	from random import randint
+	cover.save("lol%s.png" % randint(1,100))
+
 
 	return "ok", True
