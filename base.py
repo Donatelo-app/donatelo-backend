@@ -4,7 +4,7 @@ from io import BytesIO
 import requests
 
 from utils import validate_views, validate_resources, get_resources_names_from_view
-from constants import VARIBLES_TYPES
+from constants import VARIBLES_TYPES, SERVICES
 import render
 
 from pymongo import MongoClient
@@ -40,7 +40,7 @@ def get_group(group_id):
 
 	enviroment = result
 
-	return {"views": cover["views"], "resources": resources, "enviroment": enviroment}, True
+	return {"views": cover["views"], "resources": resources, "enviroment": enviroment, "services":SERVICES}, True
 def is_group_exist(group_id):
 	group = mongo.groups.find_one({"group_id":group_id})
 	if group is None:

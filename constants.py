@@ -1,3 +1,5 @@
+import json
+
 VIEWS = {
 	"text": {"id": str,
 			  "type": str,
@@ -64,3 +66,5 @@ VARIBLES_TYPES = {
 	"str": "",
 	"float": 0.0
 }
+
+SERVICES = json.loads(open("services.json").read())
