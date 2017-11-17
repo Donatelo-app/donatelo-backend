@@ -1,5 +1,6 @@
 import threading
 import json
+import os
 
 from app import app
 import base
@@ -9,6 +10,11 @@ import render
 
 from flask import request
 
+
+SECRET_SERVICE_KEY = os.environ["SECRET_SERVICE_KEY"]
+
+
+# UTILS
 def api_result(result, is_error):
 	if is_error:
 		result = {"code":"error", "message":result, "result":{}}
@@ -21,11 +27,27 @@ def api_result(result, is_error):
 
 		return result, 200
 
+def update_cover(group_id):
+	result, code = base.get_access_token(group_id)
+	if not code:
+		return result, code
+
+	access_token = result
+	cover = base.get_cover_image(group_id)
+	
+	vk_utils.update_cover(group_id, access_token, cover)
+	from random import randint
+
+	return "ok", True
+
+
+## ROUTES
 @app.route("/")
 def index():
 	return "hello world", 200
 
 
+# VK-APP
 @app.route("/create_group", methods=["POST"])
 def create_group():
 	data = json.loads(request.data.decode("utf-8"))
@@ -40,6 +62,18 @@ def create_group():
 
 	return api_result("", False)
 
+@app.route("/get_group", methods=["POST"])
+def get_groups():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id"]
+
+	result, code = base.get_group(data["group_id"])
+	if not code: return api_result(result, True)
+
+	result, code = base.get_group(data["group_id"])
+	if not code: return api_result(result, True)
+
+	return api_result(result, False)
 
 @app.route("/update_cover", methods=["POST"])
 def update_cover():
@@ -60,39 +94,62 @@ def update_cover():
 	return api_result("", False)
 
 
-@app.route("/get_group", methods=["POST"])
-def get_groups():
-	data = json.loads(request.data.decode("utf-8"))
-	required_fields = ["group_id"]
-
-	result, code = base.get_group(data["group_id"])
-	if not code: return api_result(result, True)
-
-	result, code = base.get_group(data["group_id"])
-	if not code: return api_result(result, True)
-
-	return api_result(result, False)
-
-
+# SERVICES
 @app.route("/get_varible", methods=["POST"])
-def create_varible():
+def get_varible():
 	data = json.loads(request.data.decode("utf-8"))
-	required_fields = ["group_id", "access_token"]
-	
+	required_fields = ["secret_key", "group_id", "varible_name"]
+
+	if SECRET_SERVICE_KEY != data["secret_key"]:
+		return api_result("Incorrect secret key", True)
+
 	missing_fields = get_missing_fields(required_fields, data)
 	if missing_fields:
 		return api_result("Fields %s are missing" % missing_fields, True)
 
+	result, code = base.get_varible(data["group_id"], data["varible_name"])
+	if not code:
+		return api_result(result, True)
 
-
-@app.route("/get_varible", methods=["POST"])
-def get_varible():
-	return "ok", 200
+	return api_result(result, False)
 
 
 @app.route("/set_varible", methods=["POST"])
 def set_varible():
-	return "ok", 200
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["secret_key", "group_id", "varible_name", "value"]
+
+	if SECRET_SERVICE_KEY != data["secret_key"]:
+		return api_result("Incorrect secret key", True)
+
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = base.set_varible(data["group_id"], data["varible_name"], data["value"])	
+	if not code:
+		return api_result(result, True)
+
+	return api_result("ok", False)
+
+
+@app.route("/create_varible", methods=["POST"])
+def create_varible():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["secret_key", "group_id", "varible_name", "varible_type"]
+
+	if SECRET_SERVICE_KEY != data["secret_key"]:
+		return api_result("Incorrect secret key", True)
+
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = base.create_varible(data["group_id"], data["varible_name"], data["varible_type"])	
+	if not code:
+		return api_result(result, True)
+
+	return api_result("ok", False)
 
 
 @app.route("/group_exist", methods=["POST"])
@@ -105,15 +162,3 @@ def group_exist():
 	return api_result(group_existing, False)
 
 
-def update_cover(group_id):
-	result, code = base.get_access_token(group_id)
-	if not code:
-		return result, code
-
-	access_token = result
-	cover = base.get_cover_image(group_id)
-	
-	vk_utils.update_cover(group_id, access_token, cover)
-	from random import randint
-
-	return "ok", True
