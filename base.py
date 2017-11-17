@@ -162,10 +162,11 @@ def get_varible(group_id, varible_name):
 	result, code = get_enviroment(group_id)
 	if not code:
 		return result, code
+
 	varible = result.get(varible_name)
 
 	if varible is None:
-		return "Unknown varible name", False
+		return "Unknown varible name: %s" % varible_name, False
 
 	return varible, True
 def create_varible(group_id, varible_name, varible_type):
@@ -191,9 +192,15 @@ def set_varible(group_id, varible_name, value):
 	result, code = get_varible(group_id, varible_name)
 	if not code:
 		return result, code
-
 	cur_value = result
-	enviroment = get_enviroment(group_id)[0]
+	
+	result, code = get_enviroment(group_id)
+	if not code:
+		return result, code
+	enviroment = result
+
+	if not varible_name in enviroment:
+		return "Unknown varible name: %s" % varible_name, False
 
 	if not type(cur_value) is type(value): 
 		return "Varible type must be %s but you use %s" % (type(cur_value), type(value)), False
@@ -205,14 +212,15 @@ def set_varible(group_id, varible_name, value):
 
 	return "ok", True
 def delete_varible(group_id, varible_name):
-	result, code = get_varible(group_id, varible_name)
+	result, code = get_enviroment(group_id)
 	if not code:
 		return result, code
+	enviroment = result
 
-	cur_value = result
-	enviroment = get_enviroment(group_id)[0]
+	if not varible_name in enviroment:
+		return "Unknown varible name: %s" % varible_name, False
 
-	enviroment.pop()
+	enviroment.pop(varible_name)
 	result, code = set_enviroment(group_id, enviroment)
 	if not code:
 		return result, code
