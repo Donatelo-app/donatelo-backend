@@ -20,7 +20,8 @@ VIEWS = {
 		      "angle": int
 		      },
 
-	"linear": {"id": str,
+	"linear": {
+		  "id": str,
 		  "type": str,	
 	      "value": str,
 	      "max_value": int,

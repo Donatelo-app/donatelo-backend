@@ -1,10 +1,10 @@
 from jinja2 import Template
 from render.draw import *
 
-BACKGROUND_SIZE = (1280, 364)
+BACKGROUND_SIZE = (1590, 400)
 
 def render_cover(views, resources, enviroment):
-	background = resources["background"]
+	background = resources["background"].resize(BACKGROUND_SIZE)
 
 	for view in views:
 		if view["type"] == "text":
