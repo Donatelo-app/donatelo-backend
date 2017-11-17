@@ -25,13 +25,19 @@ def is_group_exist(group_id):
 		return False
 	return True
 
-def get_cover(group_id):
+def get_group(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
 	if cover is None:
 		return "Unknown group id", False
 	resources = dict([(res_name, "%s/%s:%s.png" % (S3_URL, group_id, res_name)) for res_name in get_resources_names_from_view(cover["views"])])
 	
-	return {"views": cover["views"], "resources": resources}, True
+	result, code = get_enviroment(group_id)
+	if not code:
+		return result, code
+
+	enviroment = result
+
+	return {"views": cover["views"], "resources": resources, "enviroment": enviroment}, True
 
 def get_enviroment(group_id):
 	enviroment = mongo.env.find_one({"group_id":group_id})
@@ -159,7 +165,7 @@ def set_varible(group_id, varible_name, value):
 
 
 def get_resources(group_id):
-	result, code = get_cover(group_id)
+	result, code = get_group(group_id)
 	if not code:
 		return result, code
 
@@ -189,15 +195,12 @@ def get_resources(group_id):
 	return resources, True
 
 def get_cover_image(group_id):
-	result, code = get_cover(group_id)
+	result, code = get_group(group_id)
 	if not code:
 		return result, code
+	
 	views = result["views"]
-
-	result, code = get_enviroment(group_id)
-	if not code:
-		return result, code
-	env = result
+	env = result["enviroment"]
 
 	result, code = get_resources(group_id)
 	if not code:

@@ -59,16 +59,19 @@ def update_cover():
 
 	return api_result("", False)
 
-@app.route("/get_cover", methods=["POST"])
-def get_cover():
+
+@app.route("/get_group", methods=["POST"])
+def get_groups():
 	data = json.loads(request.data.decode("utf-8"))
 	required_fields = ["group_id"]
 
-	result, code = base.get_cover(data["group_id"])
-	if not code: return api_result(result, True)	
+	result, code = base.get_group(data["group_id"])
+	if not code: return api_result(result, True)
+
+	result, code = base.get_group(data["group_id"])
+	if not code: return api_result(result, True)
 
 	return api_result(result, False)
-
 
 
 @app.route("/get_varible", methods=["POST"])
