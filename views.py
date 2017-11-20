@@ -27,7 +27,7 @@ def api_result(result, is_error):
 
 		return result, 200
 
-def update_cover(group_id):
+def update_cover_image(group_id):
 	result, code = base.get_access_token(group_id)
 	if not code:
 		return result, code
@@ -84,7 +84,7 @@ def update_cover():
 	result, code = base.set_cover(data["group_id"], data["views"], data["resources"])
 	if not code: return api_result(result, True)	
 
-	thread = threading.Thread(target=update_cover, args=(data["group_id"],))
+	thread = threading.Thread(target=update_cover_image, args=(data["group_id"],))
 	thread.daemon = True
 	thread.start()
 
