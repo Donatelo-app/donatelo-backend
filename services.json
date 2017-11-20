@@ -1,22 +1,20 @@
-[
-	{
-		"id": "bitcoin",
+{
+	"bitcoin": {
 		"name": "Биткоин-кошелек",
 		"decrtiption": "Данный сервис позволит вам вести актуальную статистику по пожертвованиями на ваш bitcoin-кошелек.",
 		"api_link": "https://bitok-donatelo.herokuapp.com",
 		"inputs":
-			[
-				{
-					"id": "bitcoin-adress",
-					"description": "Введите ваш биткоин-адрес.",
-					"type": "str"
-				}
-			],
+			{
+				"bitcoin-adress": {
+									"description": "Введите ваш биткоин-адрес.",
+									"regexp": "([0-9|a-z|A_Z]){32,34}",
+									"type": "str"
+								   }
+			},
 
 		"card_style": {
 			"icon": "mic_none",
 			"color": "red lightness-1"
 		}
 	}
-
-]
+}

@@ -153,8 +153,7 @@ def set_enviroment(group_id, enviroment):
 	result, code = get_enviroment(group_id)
 	if not code:
 		return result, code
-
-	mongo.enviroment.update_one({"group_id":group_id}, {"$set":{"group_id":group_id, "enviroment":enviroment}})
+	mongo.env.update_one({"group_id":group_id}, {"$set":{"group_id":group_id, "enviroment":enviroment}})
 	return "ok", True
 
 # VARIBLE

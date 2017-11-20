@@ -1,4 +1,6 @@
-from constants import VIEWS, RESOURCES
+import re
+
+from constants import VIEWS, RESOURCES, SERVICES
 
 def generate_resource_id(view_id, resource_name):
 	return "%s:%s" % (view_id, resource_name)
@@ -78,3 +80,35 @@ def get_missing_fields(required_fields, data):
 
 
 	return missing_fields
+
+
+def validate_service_form(service_id, form):
+	if not service_id in SERVICES:
+		return "Unknown service ID", False
+
+	SERVICE = SERVICES[service_id]
+
+	if not type(form) is dict:
+		return "Field service_id must be %s, but you use %s" % (dict, type(form)), False
+
+	missing_fields = set(SERVICE["inputs"]) - set(form)
+	extra_fields = set(form) - set(SERVICE["inputs"])
+
+	if missing_fields:
+		return "Missing fields :%s" % (str(missing_fields)), False
+
+	if extra_fields:
+		return "Extra fields :%s" % (str(extra_fields)), False
+
+
+	for input_id, input_value in form.items():
+		if not type(input_value) is str:
+			return "Field %s must be %s, but you use %s" % (input_id, str, type(input_value)), False
+
+		regexp = SERVICE["inputs"][input_id]["regexp"]
+		result = re.match(regexp, input_value)
+
+		if result is None or result.group(0) != input_value:
+			return "Invalid input[%s] format." % (input_id,) , False
+
+	return "ok", True

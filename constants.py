@@ -1,3 +1,4 @@
+import codecs
 import json
 
 VIEWS = {
@@ -67,4 +68,4 @@ VARIBLES_TYPES = {
 	"float": 0.0
 }
 
-SERVICES = json.loads(open("services.json").read())
+SERVICES = json.loads(codecs.open("services.json", "r", "utf-8").read())

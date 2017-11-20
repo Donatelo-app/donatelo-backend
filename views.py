@@ -95,10 +95,43 @@ def group_exist():
 	data = json.loads(request.data.decode("utf-8"))
 	required_fields = ["group_id"]
 
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
 	group_existing = base.is_group_exist(data["group_id"])
 
 	return api_result(group_existing, False)
 
+def update_service():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id", "service_id", "form"]
+
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = services.update_service(data["group_id"], data["service_id"], data["form"])	
+
+	if not code:
+		return api_result(result, True)
+
+	return api_result("ok", False)
+
+def activate_service():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id", "service_id", "activation"]
+
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = services.activate_service(data["group_id"], data["service_id"], data["activation"])	
+	if not code:
+		return api_result(result, True)
+
+	return api_result("ok", False)
+	
 
 # SERVICES
 @app.route("/create_varible", methods=["POST"])
@@ -155,6 +188,7 @@ def set_varible():
 
 	return api_result("ok", False)
 
+@app.route("/delete_varible", methods=["POST"])
 def delete_varible():
 	data = json.loads(request.data.decode("utf-8"))
 	required_fields = ["secret_key", "group_id", "varible_name"]
