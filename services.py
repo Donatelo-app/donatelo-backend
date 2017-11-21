@@ -20,7 +20,7 @@ def activate_service(group_id, service_id, activation):
 
 	service = SERVICES[service_id]
 
-	response = requests.post(service["api_link"]+"/activate", json={"group_id": group_id, "activation": activation, "secret_key": SECRET_SERVICE_KEY})
+	response = requests.post(service["api_link"]+"/set_activate", json={"group_id": group_id, "activation": activation, "secret_key": SECRET_SERVICE_KEY})
 	if response.status_code != 200:
 		try:
 			return response.json()["message"], False
@@ -41,7 +41,7 @@ def update_service(group_id, service_id, form):
 
 	service = SERVICES[service_id]
 
-	response = requests.post(service["api_link"]+"/update", json={"group_id": group_id, "form": form, "secret_key": SECRET_SERVICE_KEY})
+	response = requests.post(service["api_link"]+"/set_fields", json={"group_id": group_id, "form": form, "secret_key": SECRET_SERVICE_KEY})
 	if response.status_code != 200:
 		try:
 			return response.json()["message"], False
