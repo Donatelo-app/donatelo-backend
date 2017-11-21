@@ -62,6 +62,17 @@ def create_group():
 
 	return api_result("", False)
 
+@app.route("/get_enviroment", methods=["POST"])
+def get_enviroment():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id"]
+
+	result, code = base.get_enviroment(data["group_id"])
+	if not code: return api_result(result, True)
+
+	return api_result(result, False)
+
+
 @app.route("/get_group", methods=["POST"])
 def get_group():
 	data = json.loads(request.data.decode("utf-8"))
