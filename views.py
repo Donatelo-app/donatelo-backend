@@ -114,6 +114,7 @@ def group_exist():
 
 	return api_result(group_existing, False)
 
+@app.route("/update_service", methods=["POST"])
 def update_service():
 	data = json.loads(request.data.decode("utf-8"))
 	required_fields = ["group_id", "service_id", "form"]
@@ -129,6 +130,7 @@ def update_service():
 
 	return api_result("ok", False)
 
+@app.route("/activate_service", methods=["POST"])
 def activate_service():
 	data = json.loads(request.data.decode("utf-8"))
 	required_fields = ["group_id", "service_id", "activation"]
