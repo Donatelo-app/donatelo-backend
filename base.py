@@ -102,7 +102,7 @@ def get_resources(group_id):
 		return result, code
 
 	views = result["views"]
-	enviroment = views["enviroment"]
+	enviroment = result["enviroment"]
 
 	resources_names = get_resources_names_from_view(views)
 	resources = {}
