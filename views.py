@@ -201,6 +201,10 @@ def set_varible():
 	if not code:
 		return api_result(result, True)
 
+	thread = threading.Thread(target=update_cover_image, args=(data["group_id"],))
+	thread.daemon = True
+	thread.start()
+
 	return api_result("ok", False)
 
 @app.route("/delete_varible", methods=["POST"])
