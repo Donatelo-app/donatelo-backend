@@ -34,5 +34,29 @@
 			"icon": "mic_none",
 			"color": "blue lightness-1"
 		}
+	},
+
+	"last-sub-service": {
+		"name": "Последний подписчик",
+		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
+		"api_link": "https://last-sub-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"secret_key": {
+									"description": "Придумайте случайную последовательность символов.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"secret_code": {
+									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы.",
+									"regexp": "[0-9]*",
+									"type": "str"
+								   }
+			},
+
+		"card_style": {
+			"icon": "face",
+			"color": "blue lightness-1"
+		}
 	}
 }
