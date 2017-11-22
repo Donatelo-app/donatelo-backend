@@ -8,6 +8,8 @@ from utils import get_missing_fields
 import vk_utils
 import render
 
+import services
+
 from flask import request
 
 
@@ -117,13 +119,13 @@ def group_exist():
 @app.route("/update_service", methods=["POST"])
 def update_service():
 	data = json.loads(request.data.decode("utf-8"))
-	required_fields = ["group_id", "service_id", "form"]
+	required_fields = ["group_id", "service_id", "fields"]
 
 	missing_fields = get_missing_fields(required_fields, data)
 	if missing_fields:
 		return api_result("Fields %s are missing" % missing_fields, True)
 
-	result, code = services.update_service(data["group_id"], data["service_id"], data["form"])	
+	result, code = services.update_service(data["group_id"], data["service_id"], data["fields"])	
 
 	if not code:
 		return api_result(result, True)
