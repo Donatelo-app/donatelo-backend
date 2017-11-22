@@ -1,0 +1,62 @@
+{
+	"bitcoin": {
+		"name": "Биткоин-кошелек",
+		"decrtiption": "Данный сервис позволит вам вести актуальную статистику по пожертвованиями на ваш bitcoin-кошелек.",
+		"api_link": "https://bitok-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"bitcoin-adress": {
+									"description": "Введите ваш биткоин-адрес.",
+									"regexp": "([0-9|a-z|A_Z]){32,34}",
+									"type": "str"
+								   }
+			},
+
+		"card_style": {
+			"icon": "mic_none",
+			"color": "red lightness-1"
+		}
+	},
+	"simple-service": {
+		"name": "Очень простой сервис",
+		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
+		"api_link": "https://simple-service-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"simple_field": {
+									"description": "Очень простое поле",
+									"regexp": "([0-9|a-z|A_Z]){1,34}",
+									"type": "str"
+								   }
+			},
+
+		"card_style": {
+			"icon": "mic_none",
+			"color": "blue lightness-1"
+		}
+	},
+
+	"last-sub-service": {
+		"name": "Последний подписчик",
+		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
+		"api_link": "https://last-sub-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"secret_key": {
+									"description": "Придумайте случайную последовательность символов.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"secret_code": {
+									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы.",
+									"regexp": ".*",
+									"type": "str"
+								   }
+			},
+
+		"card_style": {
+			"icon": "face",
+			"color": "blue lightness-1"
+		}
+	}
+}
