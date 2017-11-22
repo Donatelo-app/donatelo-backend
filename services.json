@@ -23,7 +23,7 @@
 		"api_link": "https://simple-service-donatelo.herokuapp.com",
 		"inputs":
 			{
-				"simple-field": {
+				"simple_field": {
 									"description": "Очень простое поле",
 									"regexp": "([0-9|a-z|A_Z]){1,34}",
 									"type": "str"
