@@ -18,6 +18,8 @@ s3 = boto3.client("s3", aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"], aws_s
 S3_BUCKET = os.environ["S3_BUCKET"]
 S3_URL = os.environ["S3_URL"]
 
+STANDART_IMAGE = "https://pp.userapi.com/c824503/v824503449/c4e1/D1Vi3y86Vww.jpg"
+
 
 # GROUP
 def create_group(group_id, access_token):
@@ -100,6 +102,7 @@ def get_resources(group_id):
 		return result, code
 
 	views = result["views"]
+	enviroment = views["enviroment"]
 
 	resources_names = get_resources_names_from_view(views)
 	resources = {}
@@ -114,7 +117,7 @@ def get_resources(group_id):
 
 	for view in views:
 		if view["type"] == "image":
-			res = requests.get(view["value"]).content
+			res = requests.get(enviroment.get(view["value"], STANDART_IMAGE)).content
 			try:
 				res = Image.open(BytesIO(res))
 			except Exception as ex:
