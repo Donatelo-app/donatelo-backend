@@ -17,24 +17,6 @@
 			"color": "red lightness-1"
 		}
 	},
-	"simple-service": {
-		"name": "Очень простой сервис",
-		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
-		"api_link": "https://simple-service-donatelo.herokuapp.com",
-		"inputs":
-			{
-				"simple_field": {
-									"description": "Очень простое поле",
-									"regexp": "([0-9|a-z|A_Z]){1,34}",
-									"type": "str"
-								   }
-			},
-
-		"card_style": {
-			"icon": "apps",
-			"color": "blue lightness-1"
-		}
-	},
 
 	"random-comment": {
 		"name": "Рандомный коммент.",
@@ -67,7 +49,7 @@
 
 		"card_style": {
 			"icon": "chat_bubble_outline",
-			"color": "yellow lightness-1"
+			"color": "orange lightness-1"
 		}
 	},
 	"last-sub-service": {
