@@ -13,7 +13,7 @@
 			},
 
 		"card_style": {
-			"icon": "monetization_on",
+			"icon": "mic_none",
 			"color": "red lightness-1"
 		}
 	},
@@ -31,8 +31,38 @@
 			},
 
 		"card_style": {
-			"icon": "apps",
+			"icon": "mic_none",
 			"color": "blue lightness-1"
+		}
+	},
+
+	"random-comment": {
+		"name": "Рандомный коммент.",
+		"decrtiption": "Сервис позволяет выводить в шапку случайный комментарий человека, который поставил определенный хештег.",
+		"api_link": "https://last-sub-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"secret_key": {
+									"description": "Придумайте случайную последовательность символов.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"secret_code": {
+									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"hashtag": {
+									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы.",
+									"regexp": ".*",
+									"type": "str"
+								   }
+
+			},
+
+		"card_style": {
+			"icon": "chat_bubble_outline",
+			"color": "yellow lightness-1"
 		}
 	},
 
@@ -67,7 +97,31 @@
 
 		"card_style": {
 			"icon": "chat_bubble_outline",
-			"color": "yellow lightness-1"
+			"color": "green lightness-1"
+		},
+
+	"last-sub-service": {
+		"name": "Последний подписчик",
+		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
+		"api_link": "https://last-sub-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"secret_key": {
+									"description": "Придумайте случайную последовательность символов.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"secret_code": {
+									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы.",
+									"regexp": ".*",
+									"type": "str"
+								   }
+			},
+
+		"card_style": {
+			"icon": "face",
+			"color": "blue lightness-1"
 		}
+	}
 	}
 }
