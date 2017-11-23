@@ -13,7 +13,7 @@
 			},
 
 		"card_style": {
-			"icon": "mic_none",
+			"icon": "monetization_on",
 			"color": "red lightness-1"
 		}
 	},
@@ -31,15 +31,15 @@
 			},
 
 		"card_style": {
-			"icon": "mic_none",
+			"icon": "apps",
 			"color": "blue lightness-1"
 		}
 	},
 
-	"last-sub-service": {
-		"name": "Последний подписчик",
-		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
-		"api_link": "https://last-sub-donatelo.herokuapp.com",
+	"random-comment": {
+		"name": "Рандомный коммент.",
+		"decrtiption": "Сервис позволяет выводить в шапку случайный комментарий человека, который поставил определенный хештег.",
+		"api_link": "https://random-comment-donatelo.herokuapp.com",
 		"inputs":
 			{
 				"secret_key": {
@@ -51,12 +51,23 @@
 									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы.",
 									"regexp": ".*",
 									"type": "str"
+								   },
+				"hashtag": {
+									"description": "Введите ключевой хештег, по которому вы будете определять случайный комментарий.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"probality": {
+									"description": "Введите дробную вероятность от 0 до 1, того, что комментарий будет установлен в шапку.",
+									"regexp": "0.[0-9]{1,}",
+									"type": "str"
 								   }
+
 			},
 
 		"card_style": {
-			"icon": "face",
-			"color": "blue lightness-1"
+			"icon": "chat_bubble_outline",
+			"color": "yellow lightness-1"
 		}
 	}
 }
