@@ -200,11 +200,7 @@ def set_varible():
 	result, code = base.set_varible(data["group_id"], data["varible_name"], data["value"])	
 	if not code:
 		return api_result(result, True)
-
-	thread = threading.Thread(target=update_cover_image, args=(data["group_id"],))
-	thread.daemon = True
-	thread.start()
-
+		
 	return api_result("ok", False)
 
 @app.route("/delete_varible", methods=["POST"])
@@ -222,5 +218,23 @@ def delete_varible():
 	result, code = base.delete_varible(data["group_id"], data["varible_name"])	
 	if not code:
 		return api_result(result, True)
+
+	return api_result("ok", False)
+
+@app.route("/update_image", methods=["POST"])
+def update_image():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["secret_key", "group_id"]
+
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	if SECRET_SERVICE_KEY != data["secret_key"]:
+		return api_result("Incorrect secret key", True)
+
+	thread = threading.Thread(target=update_cover_image, args=(data["group_id"],))
+	thread.daemon = True
+	thread.start()
 
 	return api_result("ok", False)
