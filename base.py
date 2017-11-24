@@ -34,7 +34,9 @@ def get_group(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
 	if cover is None:
 		cover = {"views":[]}
-	resources = dict([(res_name, "%s/%s:%s.png" % (S3_URL, group_id, res_name)) for res_name in get_resources_names_from_view(cover["views"])])
+		resources = {}
+	else:
+		resources = dict([(res_name, "%s/%s:%s.png" % (S3_URL, group_id, res_name)) for res_name in get_resources_names_from_view(cover["views"])])
 	
 	result, code = get_enviroment(group_id)
 	if not code:
