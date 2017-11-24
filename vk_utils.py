@@ -10,7 +10,12 @@ def update_cover(group_id, access_token, cover):
 	cover.save(img, format="png")
 	img.seek(0)
 
-	upload_url = requests.get(get_upload_url.render(group_id=group_id, access_token=access_token)).json()["response"]["upload_url"].replace("\\", "")
+	upload_url = requests.get(get_upload_url.render(group_id=group_id, access_token=access_token)).json()
+	try:
+		upload_url = upload_url["response"]["upload_url"].replace("\\", "")
+	except KeyError:
+		print(upload_url)
+		
 	response = requests.post(upload_url, files=dict(photo=img)).json()
 
 	accept_hash = response["hash"]
