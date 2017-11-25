@@ -66,5 +66,23 @@
 			"icon": "face",
 			"color": "blue lightness-1"
 		}
+	},
+	"bitcoin": {
+		"name": "Биткоин кошелек",
+		"decrtiption": "Сервис для мониторинга биткоин-счета.",
+		"api_link": "https://bitok-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"bitcoin_adress": {
+								"description": "Введите ваш биткоин адрес.",
+								"regexp": "[a-z|A-Z|0-9]{32,35}",
+								"type": "str"
+							   }
+			},
+
+		"card_style": {
+			"icon": "local_atm",
+			"color": "blue lightness-1"
+		}
 	}
 }
