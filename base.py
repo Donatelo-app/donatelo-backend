@@ -42,8 +42,10 @@ def edit_token(group_id, access_token):
 def get_group(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
 	if cover is None:
-		return "Unknown group id", False
-	resources = dict([(res_name, "%s/%s:%s.png" % (S3_URL, group_id, res_name)) for res_name in get_resources_names_from_view(cover["views"])])
+		cover = {"views":[]}
+		resources = {}
+	else:
+		resources = dict([(res_name, "%s/%s:%s.png" % (S3_URL, group_id, res_name)) for res_name in get_resources_names_from_view(cover["views"])])
 	
 	result, code = get_enviroment(group_id)
 	if not code:

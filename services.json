@@ -1,28 +1,9 @@
 {
-	"bitcoin": {
-		"name": "Биткоин-кошелек",
-		"decrtiption": "Данный сервис позволит вам вести актуальную статистику по пожертвованиями на ваш bitcoin-кошелек.",
-		"api_link": "https://bitok-donatelo.herokuapp.com",
-		"inputs":
-			{
-				"bitcoin-adress": {
-									"description": "Введите ваш биткоин-адрес.",
-									"regexp": "([0-9|a-z|A_Z]){32,34}",
-									"type": "str"
-								   }
-			},
-
-		"card_style": {
-			"icon": "monetization_on",
-			"color": "red lightness-1"
-		}
-	},
-
 	"random-comment": {
 		"name": "Рандомный коммент.",
 		"decrtiption": "Сервис позволяет выводить в шапку случайный комментарий человека, который поставил определенный хештег.",
 		"api_link": "https://random-comment-donatelo.herokuapp.com",
-		"docs": "http://telegra.ph/How-connect-service-11-23",
+		"docs": "http://telegra.ph/Kak-podklyuchit-servis-Sluchajnyj-kommentarij-11-24",
 		"inputs":
 			{
 				"secret_code": {
