@@ -36,7 +36,7 @@ def edit_token(group_id, access_token):
 		return "Group is not exist", False
 
 	group["access_token"] = access_token
-	mongo.covers.update_one({"group_id":group_id}, {"$set":group})
+	mongo.groups.update_one({"group_id":group_id}, {"$set":group})
 	return "ok", True
 
 def get_group(group_id):
