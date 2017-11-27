@@ -64,6 +64,21 @@ def create_group():
 
 	return api_result("", False)
 
+@app.route("/edit_token", methods=["POST"])
+def edit_token():
+	data = json.loads(request.data.decode("utf-8"))
+	required_fields = ["group_id", "access_token"]
+	
+	missing_fields = get_missing_fields(required_fields, data)
+	if missing_fields:
+		return api_result("Fields %s are missing" % missing_fields, True)
+
+	result, code = base.edit_token(data["group_id"], data["access_token"])
+	if not code: return api_result(result, True)
+
+	return api_result("", False)
+
+
 @app.route("/get_enviroment", methods=["POST"])
 def get_enviroment():
 	data = json.loads(request.data.decode("utf-8"))

@@ -30,6 +30,15 @@ def create_group(group_id, access_token):
 	mongo.groups.insert({"group_id":group_id, "access_token": access_token})
 	mongo.env.insert({"group_id":group_id, "enviroment":{}})
 	return "ok", True
+def edit_token(group_id, access_token):
+	group = mongo.groups.find_one({"group_id":group_id})
+	if not group: 
+		return "Group is not exist", False
+
+	group["access_token"] = access_token
+	mongo.covers.update_one({"group_id":group_id}, {"$set":group})
+	return "ok", True
+
 def get_group(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
 	if cover is None:
