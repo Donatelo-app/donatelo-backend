@@ -1,22 +1,16 @@
-import jinja2
-import requests
 from io import BytesIO
-
-get_upload_url = jinja2.Template("https://api.vk.com/method/photos.getOwnerCoverPhotoUploadServer?group_id={{group_id}}&crop_x=0&crop_y=0&crop_x2=1590&crop_y2=400&access_token={{access_token}}&v=5.64")
-accept_url = jinja2.Template("https://api.vk.com/method/photos.saveOwnerCoverPhoto?hash={{phash}}&photo={{photo}}&access_token={{access_token}}&v=5.65")
+import vk_api
+from vk_api import VkUpload
 
 def update_cover(group_id, access_token, cover):
 	img = BytesIO()
 	cover.save(img, format="png")
 	img.seek(0)
 
-	upload_url = requests.get(get_upload_url.render(group_id=group_id, access_token=access_token)).json()["response"]["upload_url"].replace("\\", "")
-	response = requests.post(upload_url, files=dict(photo=img)).json()
+	vk_session = vk_api.VkApi(token=access_token)
+	upload = vk_api.VkUpload(vk_session)
 
-	accept_hash = response["hash"]
-	accept_photo = response["photo"]
-
-	requests.get(accept_url.render(phash=accept_hash, photo=accept_photo, access_token=access_token))
+	photo = upload.photo_cover(img, group_id=group_id, crop_x2 = cover.size[0], crop_y2 = cover.size[1])
 
 def get_viewer_mode(viewer_id):
 	pass
