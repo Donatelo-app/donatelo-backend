@@ -1,3 +1,6 @@
+import codecs
+import json
+
 VIEWS = {
 	"text": {"id": str,
 			  "type": str,
@@ -24,7 +27,7 @@ VIEWS = {
 		  "id": str,
 		  "type": str,	
 	      "value": str,
-	      "max_value": int,
+	      "max_value": float,
 	      "x": int,
 	      "y": int,
 	      "w": int,
@@ -38,7 +41,7 @@ VIEWS = {
 	"radial": {"id": str,
 		  "type": str,
 	      "value": str,
-	      "max_value": int,
+	      "max_value": float,
 	      "x": int,
 	      "y": int,
 	      "w": int,
@@ -64,3 +67,5 @@ VARIBLES_TYPES = {
 	"str": "",
 	"float": 0.0
 }
+
+SERVICES = json.loads(codecs.open("services.json", "r", "utf-8").read())

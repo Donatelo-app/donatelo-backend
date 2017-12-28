@@ -1,0 +1,69 @@
+{
+	"random-comment": {
+		"name": "Рандомный коммент.",
+		"decrtiption": "Сервис позволяет выводить в шапку случайный комментарий человека, который поставил определенный хештег.",
+		"api_link": "https://random-comment-donatelo.herokuapp.com",
+		"docs": "http://telegra.ph/Kak-podklyuchit-servis-Sluchajnyj-kommentarij-11-24",
+		"inputs":
+			{
+				"secret_code": {
+									"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы, узнать подобнее вы сможете в документации.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"hashtag": {
+									"description": "Введите ключевой хештег, по которому вы будете определять случайный комментарий.",
+									"regexp": ".*",
+									"type": "str"
+								   },
+				"probality": {
+									"description": "Введите дробную вероятность от 0 до 1, того, что комментарий будет установлен в шапку.",
+									"regexp": "0.[0-9]{1,}",
+									"type": "str"
+								   }
+
+			},
+
+		"card_style": {
+			"icon": "chat_bubble_outline",
+			"color": "orange lightness-1"
+		}
+	},
+	"last-sub-service": {
+		"name": "Последний подписчик",
+		"decrtiption": "Очень простой и банальный сервис, банальнее которого может только самая простая банальность.",
+		"api_link": "https://last-sub-donatelo.herokuapp.com",
+		"docs": "http://telegra.ph/How-connect-service-11-23",
+		"inputs":
+			{
+				"secret_code": {
+								"description": "Это секретный ключ для авторизации call-back сообщений, получите его в настройках группы, узнать подобнее вы сможете в документации.",
+								"regexp": ".*",
+								"type": "str"
+							   }
+			},
+
+		"card_style": {
+			"icon": "face",
+			"color": "blue lightness-1"
+		}
+	},
+	"bitcoin": {
+		"name": "Биткоин кошелек",
+		"decrtiption": "Сервис для мониторинга биткоин-счета.",
+		"api_link": "https://bitok-donatelo.herokuapp.com",
+		"inputs":
+			{
+				"bitcoin_adress": {
+								"description": "Введите ваш биткоин адрес.",
+								"regexp": "[a-z|A-Z|0-9]{32,35}",
+								"type": "str"
+							   }
+			},
+
+		"card_style": {
+			"icon": "local_atm",
+			"color": "blue lightness-1"
+		}
+	}
+}
