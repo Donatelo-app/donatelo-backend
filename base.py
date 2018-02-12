@@ -3,7 +3,7 @@ from base64 import encodebytes, decodebytes
 from io import BytesIO
 import requests
 
-from utils import validate_views, validate_resources, get_resources_names_from_view
+from validation import validate_views, validate_resources, get_resources_names_from_view
 from constants import VARIBLES_TYPES, SERVICES
 import render
 

@@ -4,7 +4,7 @@ import os
 
 from app import app
 import base
-from utils import get_missing_fields
+from validation import get_missing_fields
 import vk_utils
 import render
 

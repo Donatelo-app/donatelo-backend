@@ -1,15 +1,11 @@
 import re
-
 from constants import VIEWS, RESOURCES, SERVICES
-
-def generate_resource_id(view_id, resource_name):
-	return "%s:%s" % (view_id, resource_name)
 
 def get_resources_names_from_view(views):
 	resources = ["background"]
 	for view in views:
 		for resource_name in RESOURCES[view["type"]]:
-			res_id = generate_resource_id(view["id"], resource_name)
+			res_id = "%s:%s" % (view["id"], resource_name)
 			resources.append(res_id)
 	return resources
 
@@ -68,18 +64,7 @@ def validate_resources(group_id, new_views, old_views, resources):
 	if missing_resources:
 		return "Missing resources :%s" % (str(missing_resources)), False
 
-	#### Check for types ####
-
 	return "Ok", True
-
-def get_missing_fields(required_fields, data):
-	missing_fields = []
-	for field in required_fields:
-		if field not in data:
-			missing_fields.append(field)
-
-
-	return missing_fields
 
 
 def validate_service_form(service_id, form):
@@ -112,3 +97,12 @@ def validate_service_form(service_id, form):
 			return "Invalid input[%s] format." % (input_id,) , False
 
 	return "ok", True
+
+
+def get_missing_fields(required_fields, data):
+	missing_fields = []
+	for field in required_fields:
+		if field not in data:
+			missing_fields.append(field)
+
+	return missing_fields
