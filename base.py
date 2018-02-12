@@ -1,6 +1,7 @@
 import os
 from base64 import encodebytes, decodebytes
 from io import BytesIO
+from api_utils import APIResponse
 import requests
 
 from validation import validate_views, validate_resources, get_resources_names_from_view
@@ -25,19 +26,19 @@ STANDART_IMAGE = "https://pp.userapi.com/c824503/v824503449/c4e1/D1Vi3y86Vww.jpg
 def create_group(group_id, access_token):
 	group = mongo.groups.find_one({"group_id":group_id})
 	if group: 
-		return "Group already exist", False
+		return APIResponse(message="Group already exist", error_code=1)
 
 	mongo.groups.insert({"group_id":group_id, "access_token": access_token})
 	mongo.env.insert({"group_id":group_id, "enviroment":{}})
-	return "ok", True
+	return APIResponse(message="ok")
 def edit_token(group_id, access_token):
 	group = mongo.groups.find_one({"group_id":group_id})
 	if not group: 
-		return "Group is not exist", False
+		return APIResponse(message="Group is not exist", error_code=1)
 
 	group["access_token"] = access_token
 	mongo.groups.update_one({"group_id":group_id}, {"$set":group})
-	return "ok", True
+	return APIResponse(message="ok")
 
 def get_group(group_id):
 	cover = mongo.covers.find_one({"group_id":group_id})
@@ -53,18 +54,22 @@ def get_group(group_id):
 
 	enviroment = result
 
-	return {"views": cover["views"], "resources": resources, "enviroment": enviroment, "services":SERVICES}, True
+	group = {"views": cover["views"], "resources": resources, "enviroment": enviroment, "services":SERVICES}
+
+	return APIResponse(value=group)
 def is_group_exist(group_id):
 	group = mongo.groups.find_one({"group_id":group_id})
 	if group is None:
-		return False
-	return True
+		return APIResponse(value=False, error_code=1)
+	else:
+		return APIResponse(value=True, error_code=0)
 def get_access_token(group_id):
 	group = mongo.groups.find_one({"group_id":group_id})	
+	
 	if not group: 
-		return "Unknown group id", False
-
-	return group["access_token"], True
+		return APIResponse(message="Unknown group id", error_code=1)
+	else:
+		return APIResponse(value=group["access_token"], error_code=0)
 
 # COVER
 def set_cover(group_id, views, resources):
@@ -106,7 +111,7 @@ def set_cover(group_id, views, resources):
 	else:
 		mongo.covers.update_one({"group_id":group_id}, {"$set":cover})
 
-	return "ok", True
+	return APIResponse(message="ok")
 def get_resources(group_id):
 	result, code = get_group(group_id)
 	if not code:
@@ -136,7 +141,7 @@ def get_resources(group_id):
 				#res = Image.new("RGBA", (10, 10))
 			resources["%s:image" % view["id"]] = res
 
-	return resources, True
+	return APIResponse(value=resources)
 def get_cover_image(group_id):
 	result, code = get_group(group_id)
 	if not code:
@@ -159,16 +164,17 @@ def get_cover_image(group_id):
 def get_enviroment(group_id):
 	enviroment = mongo.env.find_one({"group_id":group_id})
 	if enviroment is None:
-		return "Unknown group id", False
+		return APIResponse(message="Unknown group id", error_code=1)
 
 	enviroment = enviroment["enviroment"]
-	return enviroment, True
+	return APIResponse(value=enviroment)
+
 def set_enviroment(group_id, enviroment):
 	result, code = get_enviroment(group_id)
 	if not code:
 		return result, code
 	mongo.env.update_one({"group_id":group_id}, {"$set":{"group_id":group_id, "enviroment":enviroment}})
-	return "ok", True
+	return APIResponse(message="ok")
 
 # VARIBLE
 def get_varible(group_id, varible_name):
@@ -179,12 +185,12 @@ def get_varible(group_id, varible_name):
 	varible = result.get(varible_name)
 
 	if varible is None:
-		return "Unknown varible name: %s" % varible_name, False
+		return APIResponse(message="Unknown varible name: %s" % varible_name, error_code=1)
 
-	return varible, True
+	return APIResponse(value=varible)
 def create_varible(group_id, varible_name, varible_type):
 	if not varible_type in VARIBLES_TYPES:
-		return "Unknown varible type", False
+		return APIResponse(message="Unknown varible type", error_code=1)
 
 	result, code = get_enviroment(group_id)
 	if not code:
@@ -192,7 +198,7 @@ def create_varible(group_id, varible_name, varible_type):
 	enviroment = result
 
 	if not enviroment.get(varible_name) is None:
-		return "Varible already exist", False
+		return APIResponse(message="Varible already exist", error_code=1)
 
 	enviroment[varible_name] = VARIBLES_TYPES[varible_type]
 	
@@ -200,7 +206,7 @@ def create_varible(group_id, varible_name, varible_type):
 	if not code:
 		return result, code
 
-	return "ok", True
+	return APIResponse(message="ok")
 def set_varible(group_id, varible_name, value):
 	result, code = get_varible(group_id, varible_name)
 	if not code:
@@ -213,17 +219,17 @@ def set_varible(group_id, varible_name, value):
 	enviroment = result
 
 	if not varible_name in enviroment:
-		return "Unknown varible name: %s" % varible_name, False
+		return  APIResponse(message="Unknown varible name: %s" % varible_name, error_code=1)
 
 	if not type(cur_value) is type(value): 
-		return "Varible type must be %s but you use %s" % (type(cur_value), type(value)), False
+		return APIResponse("Varible type must be %s but you use %s" % (type(cur_value), type(value)), error_code=1)
 
 	enviroment[varible_name] = value
 	result, code = set_enviroment(group_id, enviroment)
 	if not code:
 		return result, code
 
-	return "ok", True
+	return APIResponse(message="ok")
 def delete_varible(group_id, varible_name):
 	result, code = get_enviroment(group_id)
 	if not code:
@@ -231,11 +237,11 @@ def delete_varible(group_id, varible_name):
 	enviroment = result
 
 	if not varible_name in enviroment:
-		return "Unknown varible name: %s" % varible_name, False
+		return APIResponse(message="Unknown varible name: %s" % varible_name, error_code=1)
 
 	enviroment.pop(varible_name)
 	result, code = set_enviroment(group_id, enviroment)
 	if not code:
 		return result, code
 
-	return "ok", True
+	return APIResponse(message="ok")
